@@ -1,0 +1,51 @@
+{
+  "name": "@hubbo/core",
+  "version": "0.0.0-semantic-release",
+  "description": "Hubbo Core",
+  "author": "<hi@rena.to>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renatorib/hubbo"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "src": "./src/index.ts",
+    "default": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "release": {
+    "extends": "semantic-release-monorepo"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "codegen": "tsx scripts/gqlcodegen.ts",
+    "build": "rm -rf ./dist && tsup",
+    "release": "semantic-release"
+  },
+  "dependencies": {
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "classnames": "^2.5.1",
+    "cosmiconfig": "^9.0.0",
+    "yaml": "^2.4.5"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.3.2",
+    "@graphql-codegen/core": "^4.0.2",
+    "@graphql-codegen/introspection": "^4.0.3",
+    "@inquirer/prompts": "^5.3.2"
+  }
+}

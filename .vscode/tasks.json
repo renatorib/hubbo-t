@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "command": "pnpm",
+  "tasks": [
+    {
+      "label": "API: GraphQL Codegen",
+      "group": "build",
+      "command": "pnpm",
+      "args": ["--filter=api", "gqlcodegen"],
+      "problemMatcher": []
+    }
+  ]
+}

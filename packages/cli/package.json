@@ -1,0 +1,60 @@
+{
+  "name": "@hubbo/cli",
+  "version": "0.0.0-semantic-release",
+  "description": "Hubbo CLI",
+  "author": "<hi@rena.to>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renatorib/hubbo"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "src": "./src/index.ts",
+    "default": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "bin": {
+    "hubbo": "dist/bin/cli.js",
+    "hubbo-dev": "src/bin/cli.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "release": {
+    "extends": "semantic-release-monorepo"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "build": "rm -rf ./dist && tsup",
+    "build:dev": "ts-stub --clear",
+    "release": "semantic-release"
+  },
+  "dependencies": {
+    "@commander-js/extra-typings": "^12.1.0",
+    "@inquirer/core": "^9.0.8",
+    "@inquirer/prompts": "^5.3.2",
+    "@inquirer/type": "^1.5.1",
+    "@octokit/auth-oauth-device": "^7.1.1",
+    "@hubbo/core": "workspace:*",
+    "commander": "^12.1.0",
+    "open": "^10.1.0",
+    "ora": "^8.0.1",
+    "picocolors": "^1.0.1"
+  },
+  "devDependencies": {
+    "@parcel/watcher": "^2.4.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
