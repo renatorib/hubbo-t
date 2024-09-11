@@ -5,7 +5,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
-    "customConditions": ["src"],
+    "customConditions": ["development"],
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "preserve",
     "declaration": true,

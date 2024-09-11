@@ -15,7 +15,7 @@
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged",
-    "pre-push": "pnpm test"
+    "pre-push": "pnpm type-check && pnpm test"
   },
   "nano-staged": {
     "*.{ts,tsx,md}": "prettier --write --ignore-unknown"
