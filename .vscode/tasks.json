@@ -3,10 +3,10 @@
   "command": "pnpm",
   "tasks": [
     {
-      "label": "API: GraphQL Codegen",
+      "label": "CORE: GraphQL Codegen",
       "group": "build",
       "command": "pnpm",
-      "args": ["--filter=api", "gqlcodegen"],
+      "args": ["--filter=core", "codegen"],
       "problemMatcher": []
     }
   ]

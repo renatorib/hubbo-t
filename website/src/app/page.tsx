@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Hubbo</div>;
+  return <div>Hubbo test deploy</div>;
 }

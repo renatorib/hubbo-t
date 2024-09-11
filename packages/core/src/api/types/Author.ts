@@ -3,7 +3,13 @@ import { graphql, type } from "../lib/graphql";
 export const Author = type(
   graphql(`
     fragment Author_Actor on Actor {
-      ...User_User
+      __typename
+      ... on User {
+        avatarUrl
+        name
+        login
+        twitterUsername
+      }
       ... on Organization {
         avatarUrl
         name
@@ -19,13 +25,41 @@ export const Author = type(
         avatarUrl
         login
       }
+      ... on Mannequin {
+        avatarUrl
+        login
+      }
     }
   `),
 ).withMap((actor) => {
-  return {
-    avatarUrl: "avatarUrl" in actor ? actor.avatarUrl : null,
-    login: "login" in actor ? actor.login : null,
-    name: "name" in actor && actor.name ? actor.name : "login" in actor ? actor.login : "Unknown",
-    twitterUsername: "twitterUsername" in actor ? (actor.twitterUsername ?? null) : null,
-  };
+  switch (actor.__typename) {
+    case "User":
+    case "Organization": {
+      return {
+        type: actor.__typename,
+        avatarUrl: actor.avatarUrl,
+        name: actor.name,
+        login: actor.login,
+        twitterUsername: actor.twitterUsername,
+      };
+    }
+    case "EnterpriseUserAccount": {
+      return {
+        type: actor.__typename,
+        avatarUrl: actor.avatarUrl,
+        name: actor.name,
+        login: actor.login,
+      };
+    }
+    case "Mannequin":
+    case "Bot": {
+      return {
+        type: actor.__typename,
+        avatarUrl: actor.avatarUrl,
+        login: actor.login,
+      };
+    }
+  }
+
+  actor satisfies never;
 });

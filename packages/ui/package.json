@@ -1,7 +1,7 @@
 {
-  "name": "@hubbo/core",
+  "name": "@hubbo/ui",
   "version": "0.0.0-semantic-release",
-  "description": "Hubbo Core",
+  "description": "Hubbo UI Components",
   "author": "<hi@rena.to>",
   "license": "MIT",
   "files": [
@@ -17,10 +17,19 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "exports": {
-    "development": "./src/index.ts",
-    "default": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+    ".": {
+      "development": "./src/index.ts",
+      "default": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs"
+      }
+    },
+    "./server": {
+      "development": "./src/server.ts",
+      "default": {
+        "import": "./dist/server.js",
+        "require": "./dist/server.cjs"
+      }
     }
   },
   "publishConfig": {
@@ -37,8 +46,14 @@
   },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@shikijs/markdown-it": "^1.16.2",
+    "@shikijs/twoslash": "^1.16.2",
     "classnames": "^2.5.1",
     "cosmiconfig": "^9.0.0",
+    "htmr": "^1.0.2",
+    "markdown-it": "^14.1.0",
+    "server-only": "^0.0.1",
+    "shiki": "^1.16.2",
     "yaml": "^2.4.5"
   },
   "devDependencies": {
@@ -46,6 +61,7 @@
     "@graphql-codegen/client-preset": "^4.3.2",
     "@graphql-codegen/core": "^4.0.2",
     "@graphql-codegen/introspection": "^4.0.3",
-    "@inquirer/prompts": "^5.3.2"
+    "@inquirer/prompts": "^5.3.2",
+    "@types/markdown-it": "^14.1.2"
   }
 }

@@ -5,7 +5,7 @@ import { Hubbo } from ".";
 
 const CreatePostMutation = operation(
   graphql(`
-    mutation CreatePost($input: CreateIssueInput!, $omitBody: Boolean = false) {
+    mutation CreatePost($input: CreateIssueInput!) {
       createIssue(input: $input) {
         issue {
           ...Post_Issue

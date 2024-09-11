@@ -30,7 +30,7 @@ export const Comment = type(
     lastEditedAt: comment.lastEditedAt?.toString() ?? null,
     isMinimized: comment.isMinimized,
     minimizedReason: comment.minimizedReason ?? null,
-    author: Author.unmask(comment.author),
+    author: Author.unmask(comment.author!),
     reactions: Reaction.unmask(comment.reactionGroups),
     totalReactions: comment.reactions.totalCount,
   };

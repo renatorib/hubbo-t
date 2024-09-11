@@ -26,7 +26,18 @@ export const buildPager = (args?: PagerParams, defaultLimit = 10) => {
     };
   }
 
-  return args;
+  if ("before" in args || "after" in args || "first" in args || "last" in args) {
+    return {
+      before: args.before,
+      after: args.after,
+      first: args.first,
+      last: args.last,
+    };
+  }
+
+  return {
+    first: defaultLimit,
+  };
 };
 
 const btoa = typeof window !== "undefined" ? window.btoa : (text: string) => Buffer.from(text).toString("base64");

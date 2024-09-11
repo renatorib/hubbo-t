@@ -39,6 +39,7 @@ export function typeWithMap<Result, Variables, Out>(
 
   return Object.assign(fragment, {
     __is_type: true as const,
+    __output: null as any as Simplify<Out>,
     map,
     unmask,
     withMap: <MapOut>(map: (input: Flatten<Result>) => MapOut) => typeWithMap(fragment, map),
@@ -56,6 +57,7 @@ export function operationWithMap<Result, Variables, Out>(
 ) {
   return Object.assign(document, {
     __is_operation: true as const,
+    __output: null as any as Simplify<Out>,
     map,
     withMap: <MapOut>(map: (input: Flatten<Result>) => MapOut) =>
       operationWithMap(document, (input: Result) => simplify(map(input))),

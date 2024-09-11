@@ -1,8 +1,6 @@
 import { parse as parseYaml, stringify as stringifyYaml, YAMLError, YAMLParseError } from "yaml";
 
-type YamlValue = string | number | boolean | null | YamlValue[] | { [x: string]: YamlValue };
-type Data = { [x: string]: YamlValue };
-
+type Data = { [x: string]: any };
 type Parsed = {
   data: Data;
   content: string;
@@ -11,14 +9,12 @@ type Parsed = {
 
 const parse = (content: string): Parsed => {
   // Regex adapted from https://github.com/vfile/vfile-matter and idealized by @iamtrysound
-  const match = /^\n+?---(?:\r?\n|\r)(?:([\s\S]*?)(?:\r?\n|\r))?---(?:\r?\n|\r|$)/.exec(content);
+  const match = /^---(?:\r?\n|\r)(?:([\s\S]*?)(?:\r?\n|\r))?---(?:\r?\n|\r|$)/.exec(content);
   if (match) {
     let data: Data = {};
     let parseError = null;
     try {
-      data = parseYaml(match[1], {
-        uniqueKeys: false,
-      });
+      data = parseYaml(match[1], { uniqueKeys: false });
       // yaml accept any scalar as root, but in frontmatter we want to treat `data` always as an object.
       // when the root is an scalar, pack it inside a `value` property
       if (typeof data !== "object" || Array.isArray(data)) {

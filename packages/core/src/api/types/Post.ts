@@ -32,17 +32,32 @@ export const Post = type(
           ...Label_Label
         }
       }
+      comments {
+        totalCount
+      }
     }
   `),
 ).withMap((issue) => {
   const { data: meta, content: body } = frontmatter.parse(issue.body);
+  const wordCount = body.split(" ").length;
+  const estimatedReadingTime = Math.ceil(wordCount / 200);
+
+  const labels = Label.unmask(issue.labels?.nodes);
+  const reactions = Reaction.unmask(issue.reactions);
 
   return {
     ...issue,
-    author: Author.unmask(issue.author),
+    author: Author.unmask(issue.author!),
     coauthors: User.unmask(issue.coauthors.nodes),
-    reactions: Reaction.unmask(issue.reactions),
-    labels: Label.unmask(issue.labels?.nodes),
+    reactions,
+    totalReactions: reactions.reduce((total, group) => total + group.count, 0),
+    totalComments: issue.comments.totalCount,
+    labels,
+    tags: labels.filter((label) => label.prefix === "tag"),
+    flags: labels.filter((label) => label.prefix === "flag"),
+    state: labels.find((label) => label.prefix === "state")?.name,
+    wordCount,
+    estimatedReadingTime,
     meta,
     body,
   };

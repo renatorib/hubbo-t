@@ -19,13 +19,7 @@ const FindPostQuery = operation(
   return data.search.nodes?.[0] ? Post.unmask(asNode(data.search.nodes[0], "Issue")) : null;
 });
 
-export async function findPost(
-  this: Hubbo,
-  props?: {
-    query?: QueryParams;
-    foo?: string;
-  },
-) {
+export async function findPost(this: Hubbo, props?: { query?: QueryParams }) {
   return this.graphql(FindPostQuery).execute({
     query: buildQuery.call(this, props?.query),
   });
