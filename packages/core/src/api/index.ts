@@ -6,7 +6,7 @@ import { Reaction } from "./types/Reaction";
 import { User } from "./types/User";
 
 export { Hubbo } from "./hubbo";
-export * from "./lib/error";
+export { HubboError, ensureHubboError, type GithubGraphQLFormattedError } from "./lib/error";
 
 export type Author = typeof Author.__output;
 export type Comment = typeof Comment.__output;
