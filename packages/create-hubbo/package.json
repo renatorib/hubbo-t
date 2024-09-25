@@ -1,0 +1,41 @@
+{
+  "name": "create-hubbo",
+  "version": "0.0.0-semantic-release",
+  "description": "Create Hubbo",
+  "author": "<hi@rena.to>",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renatorib/hubbo"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "create-hubbo": "dist/bin/cli.js",
+    "create-hubbo-dev": "src/bin/cli.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "release": {
+    "extends": "semantic-release-monorepo"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "build": "rm -rf ./dist && tsup",
+    "build:dev": "ts-stub --clear",
+    "release": "semantic-release"
+  },
+  "dependencies": {
+    "@hubbo/cli": "workspace:*"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

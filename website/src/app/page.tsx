@@ -51,7 +51,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <Image src={example} alt="" className="mx-auto" />
+            <Image src={example} quality={100} alt="" className="mx-auto" />
           </div>
         </div>
       </div>

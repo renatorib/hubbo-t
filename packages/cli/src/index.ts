@@ -12,6 +12,8 @@ const program = createCommand()
   .addCommand(whoami)
   .addCommand(test);
 
+export { whoami, neww };
+
 export const run = () => {
   const handleSigTerm = () => process.exit(0);
   process.on("SIGINT", handleSigTerm);

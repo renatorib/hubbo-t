@@ -22,17 +22,6 @@ export const neww = createCommand("new")
       console.log(colors.bold(`👋 Hello ${colors.green(user.name)}.`));
       console.log("Let's start your new project.\n");
 
-      const p = new Hubbo({
-        repo: `renatorib/posts`,
-        token: user.token,
-      });
-
-      const foo = await p.findPost({ query: { search: "bundlers" } });
-
-      console.log(foo);
-      console.log(process.env.npm_config_user_agent);
-      process.exit(0);
-
       if (!answerDir) {
         answerDir = await input({
           message: "What's the project directory?",
