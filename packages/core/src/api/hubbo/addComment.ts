@@ -1,5 +1,5 @@
 import { graphql, operation } from "../lib/graphql";
-import { Comment } from "../types/Comment";
+import { $comment } from "../types";
 import { Hubbo } from ".";
 
 const AddCommentMutation = operation(
@@ -16,7 +16,7 @@ const AddCommentMutation = operation(
   `),
 ).withMap((data) => {
   return {
-    comment: Comment.unmask(data.addComment!.commentEdge!.node!),
+    comment: $comment.unmask(data.addComment!.commentEdge!.node!),
   };
 });
 

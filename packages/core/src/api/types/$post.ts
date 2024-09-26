@@ -1,12 +1,14 @@
 import { graphql, type } from "../lib/graphql";
 import { frontmatter } from "../lib/frontmatter";
 
-import { User } from "./User";
-import { Author } from "./Author";
-import { Reaction } from "./Reaction";
-import { Label } from "./Label";
+import { $user } from "./$user";
+import { $author } from "./$author";
+import { $reaction } from "./$reaction";
+import { $label } from "./$label";
 
-export const Post = type(
+export type Post = typeof $post.__output;
+
+export const $post = type(
   graphql(`
     fragment Post_Issue on Issue {
       id
@@ -41,14 +43,13 @@ export const Post = type(
   const { data: meta, content: body } = frontmatter.parse(issue.body);
   const wordCount = body.split(" ").length;
   const estimatedReadingTime = Math.ceil(wordCount / 200);
-
-  const labels = Label.unmask(issue.labels?.nodes);
-  const reactions = Reaction.unmask(issue.reactions);
+  const labels = $label.unmask(issue.labels?.nodes);
+  const reactions = $reaction.unmask(issue.reactions);
 
   return {
     ...issue,
-    author: Author.unmask(issue.author!),
-    coauthors: User.unmask(issue.coauthors.nodes),
+    author: $author.unmask(issue.author!),
+    coauthors: $user.unmask(issue.coauthors.nodes),
     reactions,
     totalReactions: reactions.reduce((total, group) => total + group.count, 0),
     totalComments: issue.comments.totalCount,

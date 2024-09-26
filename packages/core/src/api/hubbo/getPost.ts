@@ -1,5 +1,5 @@
 import { graphql, operation } from "../lib/graphql";
-import { Post } from "../types/Post";
+import { $post } from "../types";
 import { Hubbo } from ".";
 
 const GetPostByIdQuery = operation(
@@ -12,7 +12,7 @@ const GetPostByIdQuery = operation(
   `),
 ).withMap((data) => {
   const issue = data.node && data.node.__typename === "Issue" ? data.node : null;
-  return issue ? Post.unmask(issue) : null;
+  return issue ? $post.unmask(issue) : null;
 });
 
 const GetPostByNumberQuery = operation(
@@ -26,7 +26,7 @@ const GetPostByNumberQuery = operation(
     }
   `),
 ).withMap((data) => {
-  return data.repository?.issue ? Post.unmask(data.repository.issue) : null;
+  return data.repository?.issue ? $post.unmask(data.repository.issue) : null;
 });
 
 export async function getPost(this: Hubbo, props: { number: number } | { id: string }) {

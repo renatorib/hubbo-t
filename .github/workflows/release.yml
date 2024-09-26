@@ -1,9 +1,11 @@
-name: Release
+name: Release Packages
 
 on:
   push:
     branches:
       - main
+    paths:
+      - packages/**
 
 jobs:
   release:
@@ -23,9 +25,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Tests
-        run: pnpm test
+        run: pnpm pkgs:test
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm release --debug
+        run: pnpm pkgs:release --debug

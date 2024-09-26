@@ -1,6 +1,8 @@
 import { type, graphql } from "../lib/graphql";
 
-export const User = type(
+export type User = typeof $user.__output;
+
+export const $user = type(
   graphql(`
     fragment User_User on User {
       avatarUrl

@@ -42,6 +42,8 @@ const documents = {
     types.GetRateLimitDocument,
   "\n    query GetRepository($owner: String!, $name: String!) {\n      repository(owner: $owner, name: $name) {\n        id\n        url\n      }\n    }\n  ":
     types.GetRepositoryDocument,
+  "\n        mutation AddComment($input: AddCommentInput!) {\n          addComment(input: $input) {\n            commentEdge {\n              node {\n                ...Comment_IssueComment\n              }\n            }\n          }\n        }\n      ":
+    types.AddCommentDocument,
   "\n    fragment Author_Actor on Actor {\n      __typename\n      ... on User {\n        avatarUrl\n        name\n        login\n        twitterUsername\n      }\n      ... on Organization {\n        avatarUrl\n        name\n        login\n        twitterUsername\n      }\n      ... on EnterpriseUserAccount {\n        avatarUrl\n        name\n        login\n      }\n      ... on Bot {\n        avatarUrl\n        login\n      }\n      ... on Mannequin {\n        avatarUrl\n        login\n      }\n    }\n  ":
     types.Author_ActorFragmentDoc,
   "\n    fragment Comment_IssueComment on IssueComment {\n      id\n      body\n      createdAt\n      lastEditedAt\n      isMinimized\n      minimizedReason\n      author {\n        ...Author_Actor\n      }\n      reactions {\n        totalCount\n      }\n      reactionGroups {\n        ...Reaction_ReactionGroup\n      }\n    }\n  ":
@@ -146,6 +148,12 @@ export function graphql(
 export function graphql(
   source: "\n    query GetRepository($owner: String!, $name: String!) {\n      repository(owner: $owner, name: $name) {\n        id\n        url\n      }\n    }\n  ",
 ): typeof import("./graphql").GetRepositoryDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n        mutation AddComment($input: AddCommentInput!) {\n          addComment(input: $input) {\n            commentEdge {\n              node {\n                ...Comment_IssueComment\n              }\n            }\n          }\n        }\n      ",
+): typeof import("./graphql").AddCommentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

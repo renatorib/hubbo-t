@@ -1,6 +1,8 @@
 import { graphql, type } from "../lib/graphql";
 
-export const Reaction = type(
+export type Reaction = typeof $reaction.__output;
+
+export const $reaction = type(
   graphql(`
     fragment Reaction_ReactionGroup on ReactionGroup {
       content

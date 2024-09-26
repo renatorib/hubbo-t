@@ -1,6 +1,6 @@
 import { graphql, operation } from "../lib/graphql";
 import { buildPager, PagerParams } from "../lib/pager";
-import { Comment } from "../types/Comment";
+import { $comment } from "../types";
 import { Hubbo } from ".";
 
 const GetCommentsByPostNumberQuery = operation(
@@ -49,7 +49,7 @@ const GetCommentsByPostNumberQuery = operation(
       .map((edge) => {
         return {
           cursor: edge.cursor,
-          comment: Comment.unmask(edge.node),
+          comment: $comment.unmask(edge.node),
         };
       }),
   };
@@ -102,7 +102,7 @@ const GetCommentsByPostIdQuery = operation(
       .map((edge) => {
         return {
           cursor: edge.cursor,
-          comment: Comment.unmask(edge.node),
+          comment: $comment.unmask(edge.node),
         };
       }),
   };

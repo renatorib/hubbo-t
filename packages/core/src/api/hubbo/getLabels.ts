@@ -1,7 +1,7 @@
 import { graphql, operation } from "../lib/graphql";
 import { buildPager, PagerParams } from "../lib/pager";
+import { $label } from "../types";
 import { Hubbo } from ".";
-import { Label } from "../types/Label";
 
 const GetLabelsQuery = operation(
   graphql(`
@@ -43,7 +43,7 @@ const GetLabelsQuery = operation(
       .map((edge) => {
         return {
           cursor: edge.cursor,
-          label: Label.unmask(edge.node!),
+          label: $label.unmask(edge.node!),
         };
       }),
   };

@@ -1,8 +1,10 @@
 import { graphql, type } from "../lib/graphql";
-import { Reaction } from "./Reaction";
-import { Author } from "./Author";
+import { $reaction } from "./$reaction";
+import { $author } from "./$author";
 
-export const Comment = type(
+export type Comment = typeof $comment.__output;
+
+export const $comment = type(
   graphql(`
     fragment Comment_IssueComment on IssueComment {
       id
@@ -30,8 +32,8 @@ export const Comment = type(
     lastEditedAt: comment.lastEditedAt?.toString() ?? null,
     isMinimized: comment.isMinimized,
     minimizedReason: comment.minimizedReason ?? null,
-    author: Author.unmask(comment.author!),
-    reactions: Reaction.unmask(comment.reactionGroups),
+    author: $author.unmask(comment.author!),
+    reactions: $reaction.unmask(comment.reactionGroups),
     totalReactions: comment.reactions.totalCount,
   };
 });

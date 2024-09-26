@@ -1,6 +1,8 @@
 import { graphql, type } from "../lib/graphql";
 
-export const Author = type(
+export type Author = typeof $author.__output;
+
+export const $author = type(
   graphql(`
     fragment Author_Actor on Actor {
       __typename

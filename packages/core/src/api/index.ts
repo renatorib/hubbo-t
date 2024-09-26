@@ -1,16 +1,9 @@
 export { HubboError, ensureHubboError, type GithubGraphQLFormattedError } from "./lib/error";
 export { Hubbo } from "./hubbo";
 
-import { Author } from "./types/Author";
-import { Comment } from "./types/Comment";
-import { Label } from "./types/Label";
-import { Post } from "./types/Post";
-import { Reaction } from "./types/Reaction";
-import { User } from "./types/User";
-
-export type Author = typeof Author.__output;
-export type Comment = typeof Comment.__output;
-export type Label = typeof Label.__output;
-export type Post = typeof Post.__output;
-export type Reaction = typeof Reaction.__output;
-export type User = typeof User.__output;
+export { type User } from "./types/$user";
+export { type Author } from "./types/$author";
+export { type Comment } from "./types/$comment";
+export { type Label } from "./types/$label";
+export { type Post } from "./types/$post";
+export { type Reaction } from "./types/$reaction";

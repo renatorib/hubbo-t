@@ -1,6 +1,7 @@
 import { IsEmptyObject, DeepFlatten } from "../lib/types";
-import { OperationString } from "../lib/graphql";
+import { graphql, operation, OperationString } from "../lib/graphql";
 import { GithubGraphQLFormattedError, HubboError, ensureHubboError } from "../lib/error";
+import { $comment } from "../types";
 
 import { findPosts } from "./findPosts";
 import { findPost } from "./findPost";
@@ -11,7 +12,7 @@ import { getPost } from "./getPost";
 import { createRepository } from "./createRepository";
 import { getRepository } from "./getRepository";
 import { createLabel } from "./createLabel";
-import { addComment } from "./addComment";
+// import { addComment } from "./addComment";
 import { createPost } from "./createPost";
 import { deleteLabel } from "./deleteLabel";
 import { getRateLimit } from "./getRateLimit";
@@ -77,6 +78,18 @@ export class Hubbo {
     });
   }
 
+  async rawGraphql(query: string, variables?: { [x: string]: any }) {
+    try {
+      return await fetch("https://api.github.com/graphql", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${this.options.token}` },
+        body: JSON.stringify({ query, variables }),
+      });
+    } catch (e) {
+      throw ensureHubboError(e);
+    }
+  }
+
   graphql<Data, Variables, Out>(document: OperationString<Data, Variables, Out>) {
     const execute = async (
       ...[variables]: IsEmptyObject<Variables> extends true
@@ -84,11 +97,12 @@ export class Hubbo {
         : [variables: DeepFlatten<Variables>]
     ) => {
       try {
-        const response = await fetch("https://api.github.com/graphql", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${this.options.token}` },
-          body: JSON.stringify({ query: document, variables: variables }),
-        });
+        const response = await this.rawGraphql(
+          // document is a string in runtime
+          // here in TS it's just a magic typed-string to help infer things
+          document as any as string,
+          variables,
+        );
 
         if (!response.ok) {
           throw new HubboError(response);
@@ -112,7 +126,30 @@ export class Hubbo {
     return { execute };
   }
 
-  addComment = addComment.bind(this);
+  async addComment(props: { body: string; postId: string }) {
+    const AddCommentMutation = operation(
+      graphql(`
+        mutation AddComment($input: AddCommentInput!) {
+          addComment(input: $input) {
+            commentEdge {
+              node {
+                ...Comment_IssueComment
+              }
+            }
+          }
+        }
+      `),
+    ).withMap((data) => {
+      return {
+        comment: $comment.unmask(data.addComment!.commentEdge!.node!),
+      };
+    });
+
+    return this.graphql(AddCommentMutation).execute({
+      input: { body: props.body, subjectId: props.postId },
+    });
+  }
+
   createLabel = createLabel.bind(this);
   createPost = createPost.bind(this);
   createRepository = createRepository.bind(this);

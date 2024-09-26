@@ -1,6 +1,8 @@
 import { graphql, type } from "../lib/graphql";
 
-export const Label = type(
+export type Label = typeof $label.__output;
+
+export const $label = type(
   graphql(`
     fragment Label_Label on Label {
       id

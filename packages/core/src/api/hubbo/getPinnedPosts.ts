@@ -1,7 +1,6 @@
 import { graphql, operation } from "../lib/graphql";
+import { $author, $post } from "../types";
 import { Hubbo } from ".";
-import { Author } from "../types/Author";
-import { Post } from "../types/Post";
 
 const GetPinnedPostsQuery = operation(
   graphql(`
@@ -25,8 +24,8 @@ const GetPinnedPostsQuery = operation(
     pinnedPosts: (data.repository?.pinnedIssues?.nodes ?? [])
       .filter((n) => n != null)
       .map((pinnedIssue) => ({
-        pinnedBy: Author.unmask(pinnedIssue.pinnedBy!),
-        post: Post.unmask(pinnedIssue.issue),
+        pinnedBy: $author.unmask(pinnedIssue.pinnedBy!),
+        post: $post.unmask(pinnedIssue.issue),
       })),
   };
 });

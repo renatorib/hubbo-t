@@ -1,6 +1,6 @@
 import { graphql, operation } from "../lib/graphql";
-import { Post } from "../types/Post";
 import { frontmatter } from "../lib/frontmatter";
+import { $post } from "../types";
 import { Hubbo } from ".";
 
 const CreatePostMutation = operation(
@@ -14,7 +14,7 @@ const CreatePostMutation = operation(
     }
   `),
 ).withMap((data) => {
-  return Post.unmask(data.createIssue!.issue!);
+  return $post.unmask(data.createIssue!.issue!);
 });
 
 export async function createPost(

@@ -1,7 +1,7 @@
-import { graphql, operation, asNode } from "../lib/graphql";
 import { Hubbo } from ".";
+import { graphql, operation, asNode } from "../lib/graphql";
 import { buildQuery, QueryParams } from "../lib/query";
-import { Post } from "../types/Post";
+import { $post } from "../types";
 
 const FindPostQuery = operation(
   graphql(`
@@ -16,7 +16,7 @@ const FindPostQuery = operation(
     }
   `),
 ).withMap((data) => {
-  return data.search.nodes?.[0] ? Post.unmask(asNode(data.search.nodes[0], "Issue")) : null;
+  return data.search.nodes?.[0] ? $post.unmask(asNode(data.search.nodes[0], "Issue")) : null;
 });
 
 export async function findPost(this: Hubbo, props?: { query?: QueryParams }) {

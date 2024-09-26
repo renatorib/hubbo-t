@@ -1,6 +1,6 @@
 // import { graphql, operation, RepositoryVisibility } from "../lib/graphql";
-import { Hubbo } from ".";
 import { HubboError } from "../lib";
+import { Hubbo } from ".";
 
 // Cannot use graphql here because of auto_init arg
 /* const CreateRepositoryMutation = operation(

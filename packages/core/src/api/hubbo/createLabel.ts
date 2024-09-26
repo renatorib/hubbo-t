@@ -1,6 +1,6 @@
 import { graphql, operation } from "../lib/graphql";
+import { $label } from "../types";
 import { Hubbo } from ".";
-import { Label } from "../types/Label";
 
 const CreateLabelMutation = operation(
   graphql(`
@@ -13,7 +13,7 @@ const CreateLabelMutation = operation(
     }
   `),
 ).withMap((data) => {
-  return Label.unmask(data.createLabel!.label!);
+  return $label.unmask(data.createLabel!.label!);
 });
 
 export async function createLabel(

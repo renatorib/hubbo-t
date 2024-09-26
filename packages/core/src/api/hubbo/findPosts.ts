@@ -1,8 +1,8 @@
 import { graphql, operation, asNode } from "../lib/graphql";
 import { buildQuery, QueryParams } from "../lib/query";
 import { buildPager, PagerParams } from "../lib/pager";
+import { $post } from "../types";
 import { Hubbo } from ".";
-import { Post } from "../types/Post";
 
 const FindPostsQuery = operation(
   graphql(`
@@ -30,7 +30,7 @@ const FindPostsQuery = operation(
     .filter((edge) => edge.node != null)
     .map((edge) => ({
       cursor: edge.cursor,
-      post: Post.unmask(asNode(edge.node!, "Issue")),
+      post: $post.unmask(asNode(edge.node!, "Issue")),
     }));
 
   return {
