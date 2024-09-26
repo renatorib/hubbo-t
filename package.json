@@ -12,7 +12,7 @@
     "pkgs:test": "pnpm --filter \"{packages/**}\" -r test",
     "prepkgs:build": "pnpm codegen && pnpm type-check && pnpm pkgs:test",
     "pkgs:build": "pnpm --filter \"{packages/**}\" -r build",
-    "prepkgs:release": "pnpm build",
+    "prepkgs:release": "pnpm pkgs:build",
     "pkgs:release": "pnpm --filter \"{packages/**}\" --workspace-concurrency=1 -r release"
   },
   "simple-git-hooks": {
