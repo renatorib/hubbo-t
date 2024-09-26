@@ -7,6 +7,21 @@ body {
 }
 
 @layer utilities {
+  @property --angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
+  }
+
+  @keyframes angleSpin {
+    0% {
+      --angle: 0turn;
+    }
+    100% {
+      --angle: 1turn;
+    }
+  }
+
   .text-balance {
     text-wrap: balance;
   }

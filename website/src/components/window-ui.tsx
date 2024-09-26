@@ -24,7 +24,7 @@ export function WindowUI(props: { children?: React.ReactNode; right?: React.Reac
           <div
             className={cn(
               "absolute left-[50%] -translate-x-[50%]",
-              "text-xs  rounded px-2 py-1 w-full max-w-[400px] text-center text-zinc-900 truncate",
+              "text-xs  rounded px-4 py-1 w-[45%] max-w-[400px] text-center text-zinc-900 truncate",
               props.dark ? "bg-zinc-700 text-zinc-100" : "bg-zinc-100 text-zinc-900",
             )}
           >
