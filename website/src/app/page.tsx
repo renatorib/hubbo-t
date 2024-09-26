@@ -1,7 +1,12 @@
 import Image from "next/image";
 import blobs from "~/assets/blobs.png";
-import example from "~/assets/example.png";
 import hubbo from "~/assets/hubbo.png";
+
+import exampleIssue from "~/assets/example_issue.jpg";
+import examplePost from "~/assets/example_post.jpg";
+
+import { WindowSplit } from "~/components/window-split";
+import { WindowUI } from "~/components/window-ui";
 
 export default function Home() {
   return (
@@ -36,7 +41,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-4">
-              <div className="rounded-xl p-4 md:p-8 text-white w-fit mx-auto text-xl md:text-2xl font-mono bg-gradient-to-b from-stone-950 to-stone-950/90 ring-4 ring-stone-950/20 border-4 border-stone-950/60">
+              <div className="rounded-xl p-4 md:px-8 md:py-6 text-white w-fit mx-auto text-xl md:text-2xl font-mono bg-gradient-to-b from-stone-950 to-stone-950/90 ring-4 ring-stone-950/20 border-4 border-stone-950/60">
                 <span className="select-none text-pink-400">$ </span>
                 <span>npx create-hubbo</span>
               </div>
@@ -50,8 +55,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center">
-            <Image src={example} quality={100} alt="" className="mx-auto" />
+          <div className="flex justify-center">
+            <WindowSplit
+              left={
+                <WindowUI url="github.com/renatorib/posts/issues" dark={true}>
+                  <Image draggable={false} src={exampleIssue} alt="" />
+                </WindowUI>
+              }
+              right={
+                <WindowUI url="rena.to">
+                  <Image src={examplePost} alt="" />
+                </WindowUI>
+              }
+            />
           </div>
         </div>
       </div>
