@@ -2,10 +2,8 @@ name: Release Packages
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - packages/**
+    branches: ["main"]
+    paths: ["packages/**"]
 
 jobs:
   release:
@@ -24,10 +22,14 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Lint
+        run: pnpm packages lint
       - name: Tests
-        run: pnpm pkgs:test
+        run: pnpm packages test
+      - name: Build
+        run: pnpm packages build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm pkgs:release --debug
+        run: pnpm --filter \"{packages/**}\" --workspace-concurrency=1 -r release

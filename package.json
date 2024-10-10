@@ -8,12 +8,8 @@
     "codegen": "pnpm -r codegen",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
-    "-- package-only scripts --": "",
-    "pkgs:test": "pnpm --filter \"{packages/**}\" -r test",
-    "prepkgs:build": "pnpm codegen && pnpm lint && pnpm pkgs:test",
-    "pkgs:build": "pnpm --filter \"{packages/**}\" -r build",
-    "prepkgs:release": "pnpm pkgs:build",
-    "pkgs:release": "pnpm --filter \"{packages/**}\" --workspace-concurrency=1 -r release"
+    "packages": "pnpm --filter \"{packages/**}\" -r",
+    "templates": "pnpm --filter \"{templates/**}\" -r"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged",
