@@ -31,7 +31,7 @@
     "extends": "semantic-release-monorepo"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "codegen": "tsx scripts/gqlcodegen.ts",
     "build": "rm -rf ./dist && tsup",
     "release": "semantic-release"

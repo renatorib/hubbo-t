@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Post } from "@hubbo/core";
 import { format } from "date-fns/format";
-import { config } from "~/config";
+import { config } from "~/hubbo";
 import { CalendarIcon, CommentIcon, ThumbsUpIcon, TimeIcon } from "./icons";
 
 export function PostCard({ post }: { post: Post }) {
@@ -57,7 +57,7 @@ export function PostCard({ post }: { post: Post }) {
                   href={link + "#comments"}
                   className="flex items-center gap-1 text-sm px-2 -mx-2 py-1 -py-2 rounded transition-colors text-slate-400 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-900 dark:hover:text-zinc-400"
                 >
-                  <CommentIcon /> <span className="opacity-40">{post.totalComments}</span>
+                  <CommentIcon /> <span>{post.totalComments}</span>
                 </a>
               )}
               {config.postCard.showReactions && (
@@ -65,7 +65,7 @@ export function PostCard({ post }: { post: Post }) {
                   href={link}
                   className="flex items-center gap-1 text-sm px-2 -mx-2 py-1 -py-2 rounded transition-colors text-slate-400 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-900 dark:hover:text-zinc-400"
                 >
-                  <ThumbsUpIcon /> <span className="opacity-40">{post.totalReactions}</span>
+                  <ThumbsUpIcon /> <span>{post.totalReactions}</span>
                 </a>
               )}
             </div>

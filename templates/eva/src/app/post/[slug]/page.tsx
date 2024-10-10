@@ -2,9 +2,8 @@ import Image from "next/image";
 import { MarkdownRender } from "@hubbo/ui/server";
 import { notFound, redirect, RedirectType } from "next/navigation";
 import { format } from "date-fns";
-import { hubbo } from "~/hubbo";
+import { hubbo, config } from "~/hubbo";
 import { CalendarIcon, TimeIcon } from "~/components/icons";
-import { config } from "~/config";
 
 export const revalidate = 300;
 
@@ -19,8 +18,7 @@ export default async function Post({ params }: { params: Record<string, string> 
   }
 
   return (
-    <div className="flex flex-col gap-20 w-full">
-      <div />
+    <div className="flex flex-col gap-20 pt-20 w-full">
       <div className="flex flex-col gap-6">
         <h1 className="text-5xl font-bold text-center">{post.title}</h1>
 

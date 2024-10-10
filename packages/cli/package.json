@@ -34,22 +34,25 @@
     "extends": "semantic-release-monorepo"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "build": "rm -rf ./dist && tsup",
-    "build:dev": "ts-stub --clear",
+    "build:stub": "ts-stub --clear",
     "release": "semantic-release"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^12.1.0",
+    "@hubbo/core": "workspace:*",
     "@inquirer/core": "^9.0.8",
     "@inquirer/prompts": "^5.3.2",
     "@inquirer/type": "^1.5.1",
     "@octokit/auth-oauth-device": "^7.1.1",
-    "@hubbo/core": "workspace:*",
     "commander": "^12.1.0",
     "open": "^10.1.0",
     "ora": "^8.0.1",
-    "picocolors": "^1.0.1"
+    "picocolors": "^1.0.1",
+    "prettier": "^3.3.3",
+    "tar": "^7.4.3",
+    "tiged": "^2.12.7"
   },
   "devDependencies": {
     "@parcel/watcher": "^2.4.1"

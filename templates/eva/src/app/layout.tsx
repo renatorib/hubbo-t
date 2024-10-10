@@ -1,5 +1,5 @@
 import { DarkModeSelector } from "./dark-mode-selector";
-import { config } from "~/config";
+import { config } from "~/hubbo";
 import "./globals.css";
 
 export const metadata = {
@@ -32,12 +32,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-white dark:bg-zinc-950">
         <header className="border-b border-slate-200 dark:border-zinc-800">
-          <div className="max-w-6xl mx-auto h-14 px-2 flex items-center justify-between">
+          <div className="mx-auto max-w-3xl h-14 px-2 flex items-center justify-between">
             <a
               href="/"
               className="font-bold text-lg text-slate-800 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white"
             >
-              ||name||
+              Blog Title
             </a>
 
             <div>

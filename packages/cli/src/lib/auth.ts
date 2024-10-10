@@ -24,6 +24,8 @@ export const authenticate = async () => {
   return await login();
 };
 
+export type User = Awaited<ReturnType<typeof authenticate>>;
+
 export const logout = async () => {
   // TODO: revoke token access by api
   const config = await readConfig();

@@ -27,9 +27,9 @@
     "extends": "semantic-release-monorepo"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "build": "rm -rf ./dist && tsup",
-    "build:dev": "ts-stub --clear",
+    "build:stub": "ts-stub --clear",
     "release": "semantic-release"
   },
   "dependencies": {

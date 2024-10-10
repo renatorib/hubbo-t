@@ -6,18 +6,18 @@
   "scripts": {
     "prepare": "simple-git-hooks",
     "codegen": "pnpm -r codegen",
-    "type-check": "pnpm -r type-check",
+    "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "-- package-only scripts --": "",
     "pkgs:test": "pnpm --filter \"{packages/**}\" -r test",
-    "prepkgs:build": "pnpm codegen && pnpm type-check && pnpm pkgs:test",
+    "prepkgs:build": "pnpm codegen && pnpm lint && pnpm pkgs:test",
     "pkgs:build": "pnpm --filter \"{packages/**}\" -r build",
     "prepkgs:release": "pnpm pkgs:build",
     "pkgs:release": "pnpm --filter \"{packages/**}\" --workspace-concurrency=1 -r release"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged",
-    "pre-push": "pnpm type-check && pnpm test"
+    "pre-push": "pnpm lint && pnpm test"
   },
   "nano-staged": {
     "*.{ts,tsx,md}": "prettier --write --ignore-unknown"

@@ -41,7 +41,7 @@
     "extends": "semantic-release-monorepo"
   },
   "scripts": {
-    "type-check": "tsc --noEmit",
+    "lint": "tsc --noEmit",
     "build": "rm -rf ./dist && tsup",
     "release": "semantic-release"
   },
