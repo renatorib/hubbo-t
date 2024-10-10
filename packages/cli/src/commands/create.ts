@@ -14,7 +14,7 @@ import { cloneTemplate } from "../lib/templates";
 
 const REPO_TO_STAR = "renatorib/hubbo";
 
-export const neww = createCommand("new")
+export const create = createCommand("create")
   .argument("[project-directory]")
   .description("create new hubbo project")
   .action(interactiveCreateProject);

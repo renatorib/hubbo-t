@@ -24,8 +24,7 @@
     }
   },
   "bin": {
-    "hubbo": "dist/bin/cli.js",
-    "hubbo-dev": "src/bin/cli.ts"
+    "hubbo": "dist/bin/cli.js"
   },
   "publishConfig": {
     "access": "public"
@@ -34,6 +33,7 @@
     "extends": "semantic-release-monorepo"
   },
   "scripts": {
+    "cli": "pnpm tsx --conditions=development ./src/run.ts",
     "lint": "tsc --noEmit",
     "build": "rm -rf ./dist && tsup",
     "build:stub": "ts-stub --clear",

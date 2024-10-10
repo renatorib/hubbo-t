@@ -17,8 +17,7 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "bin": {
-    "create-hubbo": "dist/bin/cli.js",
-    "create-hubbo-dev": "src/bin/cli.ts"
+    "create-hubbo": "dist/bin/cli.js"
   },
   "publishConfig": {
     "access": "public"
@@ -27,6 +26,7 @@
     "extends": "semantic-release-monorepo"
   },
   "scripts": {
+    "cli": "pnpm tsx --conditions=development ./src/bin/cli.ts",
     "lint": "tsc --noEmit",
     "build": "rm -rf ./dist && tsup",
     "build:stub": "ts-stub --clear",

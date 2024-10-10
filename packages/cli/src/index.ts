@@ -1,22 +1,37 @@
-import { createCommand } from "@commander-js/extra-typings";
+import fs from "node:fs";
+import { createCommand, Command } from "@commander-js/extra-typings";
 
 import { test } from "./commands/test";
+import { login } from "./commands/login";
 import { whoami } from "./commands/whoami";
-import { neww } from "./commands/new";
+import { create } from "./commands/create";
 
-const program = createCommand()
-  .name("hubbo")
-  .description("hubbo CLI")
-  .version("0.1.0")
-  .addCommand(neww)
-  .addCommand(whoami)
-  .addCommand(test);
+const commands = {
+  login,
+  whoami,
+  create,
+};
 
-export { whoami, neww };
+const program = createCommand().name("hubbo").description("Hubbo CLI");
 
-export const run = () => {
+if (process.env.NODE_ENV === "test") {
+  program.addCommand(test);
+}
+
+try {
+  const pkg = JSON.parse(fs.readFileSync("package.json", "utf-8"));
+  program.version(pkg.version);
+} catch (e) {}
+
+for (const command of Object.values(commands)) {
+  program.addCommand(command);
+}
+
+export { commands, program };
+
+export const runCommand = (command: Command<any[], any>) => {
   const handleSigTerm = () => process.exit(0);
   process.on("SIGINT", handleSigTerm);
   process.on("SIGTERM", handleSigTerm);
-  program.parse();
+  command.parse();
 };

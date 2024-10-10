@@ -1,12 +1,5 @@
-#!/usr/bin/env -S npx tsx
+#!/usr/bin/env node
 
-import { neww } from "@hubbo/cli";
+import { runCommand, commands } from "@hubbo/cli";
 
-const run = async () => {
-  const handleSigTerm = () => process.exit(0);
-  process.on("SIGINT", handleSigTerm);
-  process.on("SIGTERM", handleSigTerm);
-  neww.parse();
-};
-
-run();
+runCommand(commands.create);
