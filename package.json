@@ -35,7 +35,7 @@
     "minimist": "^1.2.8",
     "nano-staged": "^0.8.0",
     "prettier": "^3.3.3",
-    "semantic-release": "^24.1.0",
+    "semantic-release": "^24.1.2",
     "semantic-release-monorepo": "^8.0.2",
     "semver": "^7.6.3",
     "simple-git-hooks": "^2.11.1",
