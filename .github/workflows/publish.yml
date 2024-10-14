@@ -34,5 +34,5 @@ jobs:
       - name: Build packages
         run: pnpm packages build
 
-      - name: Publis packages
+      - name: Publish packages
         run: pnpm packages publish --access public
