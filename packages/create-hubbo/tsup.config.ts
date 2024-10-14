@@ -9,6 +9,7 @@ export default defineConfig([
     entry: ["src"],
     outDir: "dist",
     splitting: true,
+    silent: true,
     esbuildOptions: (options) => {
       options.chunkNames = "__chunks/[hash]";
     },

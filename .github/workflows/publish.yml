@@ -9,10 +9,30 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-      - run: pnpm packages lint
-      - run: pnpm packages build
-      - run: pnpm packages publish --access public
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org/"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+        shell: bash
+
+      - name: Lint packages
+        run: pnpm packages lint
+
+      - name: Build packages
+        run: pnpm packages build
+
+      - name: Publis packages
+        run: pnpm packages publish --access public

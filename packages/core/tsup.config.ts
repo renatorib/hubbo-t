@@ -9,6 +9,7 @@ export default defineConfig([
     entry: ["src", "!**/*.graphql"],
     outDir: "dist",
     splitting: true,
+    silent: true,
     esbuildOptions: (options) => {
       options.chunkNames = "__chunks/[hash]";
     },
