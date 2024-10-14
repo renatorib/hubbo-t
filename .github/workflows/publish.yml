@@ -9,6 +9,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: pnpm packages lint
       - run: pnpm packages build
