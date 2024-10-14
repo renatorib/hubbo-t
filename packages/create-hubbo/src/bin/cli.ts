@@ -2,5 +2,5 @@
 
 import { runCommand, commands } from "@hubbo/cli";
 
-// -
+// --
 runCommand(commands.create);
