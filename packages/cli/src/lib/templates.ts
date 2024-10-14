@@ -15,20 +15,18 @@ type Options = {
   title: string;
 };
 
-async function downloadRepo(ref: string = "main", options?: { useCache?: boolean }) {
+async function downloadRepo(ref: string = "main") {
   const fileName = path.join(base, `${ref}.tar.gz`);
-  if (fs.existsSync(fileName) && options?.useCache === true) {
-    const url = `https://github.com/renatorib/hubbo-t/archive/refs/heads/${ref}.tar.gz`;
-    await fsp.mkdir(path.dirname(fileName), { recursive: true });
-    const response = await fetch(url);
-    if (response.ok && response.body) {
-      return new Promise((resolve) => {
-        stream.Readable.fromWeb(response.body as ReadableStream<Uint8Array>)
-          .pipe(fs.createWriteStream(fileName))
-          .on("finish", () => resolve(true))
-          .on("error", () => resolve(false));
-      });
-    }
+  const url = `https://github.com/renatorib/hubbo-t/archive/refs/heads/${ref}.tar.gz`;
+  await fsp.mkdir(path.dirname(fileName), { recursive: true });
+  const response = await fetch(url);
+  if (response.ok && response.body) {
+    return new Promise((resolve) => {
+      stream.Readable.fromWeb(response.body as ReadableStream<Uint8Array>)
+        .pipe(fs.createWriteStream(fileName))
+        .on("finish", () => resolve(true))
+        .on("error", () => resolve(false));
+    });
   }
   return true;
 }
@@ -38,6 +36,10 @@ async function extractTar(dest: string, subdir?: string) {
   const extractFile = path.join(base, "main.tar.gz");
   await fsp.mkdir(extractDest, { recursive: true });
   await fsp.mkdir(dest, { recursive: true });
+
+  if (fs.existsSync(extractDest)) {
+    await fsp.rmdir(extractDest);
+  }
 
   extract({ file: extractFile, C: extractDest, strip: 1, sync: true });
   await fsp.cp(path.join(base, subdir ? `main/${subdir}` : "main"), dest, { recursive: true });
