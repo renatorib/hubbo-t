@@ -17,32 +17,35 @@ type Options = {
 
 async function downloadRepo(ref: string = "main") {
   const fileName = path.join(base, `${ref}.tar.gz`);
-  const url = `https://github.com/renatorib/hubbo-t/archive/refs/heads/${ref}.tar.gz`;
+  const url = `https://github.com/renatorib/hubbo/archive/refs/heads/${ref}.tar.gz`;
   await fsp.mkdir(path.dirname(fileName), { recursive: true });
   const response = await fetch(url);
   if (response.ok && response.body) {
-    return new Promise((resolve) => {
+    return new Promise<string | false>((resolve) => {
       stream.Readable.fromWeb(response.body as ReadableStream<Uint8Array>)
         .pipe(fs.createWriteStream(fileName))
-        .on("finish", () => resolve(true))
+        .on("finish", () => resolve(fileName))
         .on("error", () => resolve(false));
     });
   }
-  return true;
+  return false;
 }
 
-async function extractTar(dest: string, subdir?: string) {
-  const extractDest = path.join(base, "main");
-  const extractFile = path.join(base, "main.tar.gz");
-  await fsp.mkdir(extractDest, { recursive: true });
-  await fsp.mkdir(dest, { recursive: true });
+async function extractTar(tarFile: string, dest: string, subdir?: string) {
+  const name = path.basename(tarFile).slice(0, -".tar.gz".length);
+  const extractDest = path.join(path.dirname(tarFile), name);
 
   if (fs.existsSync(extractDest)) {
-    await fsp.rmdir(extractDest);
+    await fsp.rm(extractDest, {
+      force: true,
+      recursive: true,
+    });
   }
 
-  extract({ file: extractFile, C: extractDest, strip: 1, sync: true });
-  await fsp.cp(path.join(base, subdir ? `main/${subdir}` : "main"), dest, { recursive: true });
+  await fsp.mkdir(extractDest, { recursive: true });
+  await fsp.mkdir(dest, { recursive: true });
+  extract({ file: tarFile, C: extractDest, strip: 1, sync: true });
+  await fsp.cp(path.join(base, subdir ? `${name}/${subdir}` : name), dest, { recursive: true });
 }
 
 async function configure(dir: string, options: Options) {
@@ -67,7 +70,9 @@ async function configure(dir: string, options: Options) {
 }
 
 export async function cloneTemplate(to: string, template: string, options: Options) {
-  await downloadRepo("main");
-  await extractTar(to, `templates/${template}`);
-  await configure(to, options);
+  const tarFile = await downloadRepo("main");
+  if (tarFile) {
+    await extractTar(tarFile, to, `templates/${template}`);
+    await configure(to, options);
+  }
 }
