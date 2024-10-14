@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MarkdownRender } from "@hubbo/react/server";
+import { MarkdownRender } from "../../../../../../packages/react/src/server";
 import { notFound, redirect, RedirectType } from "next/navigation";
 import { format } from "date-fns";
 import { hubbo, config } from "~/hubbo";

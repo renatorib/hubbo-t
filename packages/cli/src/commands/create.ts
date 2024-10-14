@@ -4,7 +4,7 @@ import ora from "ora";
 
 import { createCommand } from "@commander-js/extra-typings";
 import { ExitPromptError } from "@inquirer/core";
-import { confirm, input } from "@inquirer/prompts";
+import { confirm, input, select } from "@inquirer/prompts";
 import { Hubbo } from "@hubbo/core";
 
 import { authenticate } from "../lib/auth";
@@ -41,7 +41,7 @@ export async function interactiveCreateProject(dir?: string) {
     }
 
     const answerRepo = await input({
-      message: `What's the new repository name for the posts?`,
+      message: `What's the name of your CMS Repository? (repository for the posts' issues)`,
       default: `${dir}-posts`,
       validate(name) {
         if (name.includes("/")) return "Repository name can't have slash";
@@ -53,6 +53,12 @@ export async function interactiveCreateProject(dir?: string) {
     const answerName = await input({
       message: "What's name of your blog?",
       default: `${user.name}'s Blog`,
+    });
+
+    const answerTemplate = await select<string>({
+      message: "What's hubbo template do you want to use?",
+      choices: ["eva", "clara"],
+      default: "eva",
     });
 
     /**
@@ -80,17 +86,18 @@ export async function interactiveCreateProject(dir?: string) {
     }
 
     const repo = `${user.login}/${answerRepo}`;
-    const token = user.token;
-    const title = answerName;
 
-    const hubbo = new Hubbo({ repo, token });
+    const hubbo = new Hubbo({
+      token: user.token,
+      repo,
+    });
 
     /**
      * --------------------------
      * Create & configure CMS repository and template code
      * --------------------------
      */
-    loading.start("Creating CMS repository...");
+    loading.start("Creating CMS Repository...");
     // @ts-ignore
     const repository = await hubbo.createRepository();
     loading.succeed(`CMS Repository created: ${repository.url}`);
@@ -100,7 +107,7 @@ export async function interactiveCreateProject(dir?: string) {
     loading.succeed("Labels setted up");
 
     loading.start("Cloning template...");
-    await cloneTemplate(dir, "eva", { repo, token, title });
+    await cloneTemplate(dir, answerTemplate, { repo, token: user.token, title: answerName });
     loading.succeed("Templated cloned");
   } catch (e) {
     if (e instanceof ExitPromptError) {

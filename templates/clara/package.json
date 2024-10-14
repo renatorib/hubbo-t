@@ -1,5 +1,5 @@
 {
-  "name": "@hubbo/template-eva",
+  "name": "@hubbo/template-clara",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,13 +10,16 @@
     "lint": "next lint && tsc --noEmit"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.0",
     "@hubbo/core": "workspace:*",
-    "@hubbo/react": "workspace:*",
     "@hubbo/next": "workspace:*",
+    "@hubbo/react": "workspace:*",
+    "@resvg/resvg-js": "^2.6.2",
     "date-fns": "^3.6.0",
     "next": "^14.2.8",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "satori": "^0.11.2"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",

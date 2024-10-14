@@ -1,0 +1,52 @@
+{
+  "name": "@hubbo/next",
+  "version": "0.0.0-semantic-release",
+  "description": "Hubbo Next Utils",
+  "author": "<hi@rena.to>",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renatorib/hubbo-t"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "development": "./src/index.ts",
+    "default": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "release": {
+    "extends": "semantic-release-monorepo"
+  },
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "build": "rm -rf ./dist && tsup",
+    "release": "semantic-release"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@hubbo/core": "workspace:*",
+    "feed": "^4.2.2",
+    "satori": "^0.11.2",
+    "xml-escape": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/xml-escape": "^1.1.3"
+  }
+}

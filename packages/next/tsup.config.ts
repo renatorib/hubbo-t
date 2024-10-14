@@ -6,7 +6,7 @@ export default defineConfig([
     format: ["esm", "cjs"],
     sourcemap: true,
     minify: true,
-    entry: ["src", "!**/*.graphql"],
+    entry: ["src"],
     outDir: "dist",
     splitting: true,
     esbuildOptions: (options) => {
