@@ -1,0 +1,17 @@
+name: Publish packages to NPM
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  publish:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup
+      - run: pnpm packages lint
+      - run: pnpm packages build
+      - run: pnpm packages "publish --access public"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

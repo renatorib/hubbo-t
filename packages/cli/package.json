@@ -1,6 +1,6 @@
 {
   "name": "@hubbo/cli",
-  "version": "0.0.0-semantic-release",
+  "version": "1.3.0",
   "description": "Hubbo CLI",
   "author": "<hi@rena.to>",
   "license": "MIT",
@@ -29,15 +29,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "release": {
-    "extends": "semantic-release-monorepo"
-  },
   "scripts": {
     "cli": "pnpm tsx --conditions=development ./src/run.ts",
     "lint": "tsc --noEmit",
     "build": "rm -rf ./dist && tsup",
-    "build:stub": "ts-stub --clear",
-    "release": "semantic-release"
+    "build:stub": "ts-stub --clear"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^12.1.0",
