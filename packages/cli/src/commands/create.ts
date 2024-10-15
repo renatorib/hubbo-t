@@ -10,16 +10,18 @@ import { Hubbo } from "@hubbo/core";
 import { authenticate } from "../lib/auth";
 import { addStar, checkStar } from "../lib/api";
 import { consistentColor } from "../lib/utils";
-import { cloneTemplate } from "../lib/templates";
+import { Template } from "../lib/templates";
 
 const REPO_TO_STAR = "renatorib/hubbo";
+const TEMPLATES = ["eva", "clara"];
 
 export const create = createCommand("create")
   .argument("[project-directory]")
+  .option("-T, --template <name>")
   .description("create new hubbo project")
   .action(interactiveCreateProject);
 
-export async function interactiveCreateProject(dir?: string) {
+export async function interactiveCreateProject(dir?: string, options?: { template?: string }) {
   const loading = ora();
   try {
     const user = await authenticate();
@@ -55,11 +57,19 @@ export async function interactiveCreateProject(dir?: string) {
       default: `${user.name}'s Blog`,
     });
 
-    const answerTemplate = await select<string>({
-      message: "What's hubbo template do you want to use?",
-      choices: ["eva", "clara"],
-      default: "eva",
-    });
+    const validTemplate = options?.template && TEMPLATES.includes(options.template);
+
+    if (validTemplate) {
+      console.log(`Using ${colors.bgYellow(options.template)} template.`);
+    }
+
+    const answerTemplate = validTemplate
+      ? options.template!
+      : await select<string>({
+          message: "What's hubbo template do you want to use?",
+          choices: ["eva", "clara"],
+          default: "eva",
+        });
 
     /**
      * --------------------------
@@ -106,9 +116,20 @@ export async function interactiveCreateProject(dir?: string) {
     await setupLabels(hubbo);
     loading.succeed("Labels setted up");
 
-    loading.start("Cloning template...");
-    await cloneTemplate(dir, answerTemplate, { repo, token: user.token, title: answerName });
-    loading.succeed("Templated cloned");
+    loading.start("Cloning & configuring template...");
+    const template = new Template({
+      name: answerTemplate,
+      repo,
+      token: user.token,
+      title: answerName,
+      dest: dir,
+    });
+    await template.run();
+    loading.succeed("Done!");
+
+    // Install dependencies
+    console.log("What's now?");
+    console.log(`To start developing: ${colors.gray(`cd ${dir} && npm start`)}`);
   } catch (e) {
     if (e instanceof ExitPromptError) {
       loading.fail("Exited");
