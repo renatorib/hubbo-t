@@ -1,6 +1,6 @@
 {
   "name": "hubbo",
-  "version": "1.4.0",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,8 @@
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "packages": "pnpm --filter \"{packages/**}\" -r",
-    "templates": "pnpm --filter \"{templates/**}\" -r"
+    "templates": "pnpm --filter \"{templates/**}\" -r",
+    "bump": "pnpm --filter \"{.,packages/**}\" -r exec bumpv -v"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged",
@@ -19,6 +20,7 @@
     "*.{ts,tsx,md}": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
+    "@rena.to/bumpv": "^0.1.0",
     "@types/micromatch": "^4.0.9",
     "@types/minimist": "^1.2.5",
     "@types/node": "^20.14.12",

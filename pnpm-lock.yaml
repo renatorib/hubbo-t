@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@rena.to/bumpv':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@types/micromatch':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1636,6 +1639,10 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
+
+  '@rena.to/bumpv@0.1.0':
+    resolution: {integrity: sha512-6l0IaDnjDbMz3t5xPUTq0422PegIaGM1pgplx1g2qvsRHs5SnJnCZAsn4UDrq2k4IuSmV5WnKKxifOEq1123ng==}
+    hasBin: true
 
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
@@ -6406,6 +6413,10 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
+
+  '@rena.to/bumpv@0.1.0':
+    dependencies:
+      minimist: 1.2.8
 
   '@repeaterjs/repeater@3.0.6': {}
 
