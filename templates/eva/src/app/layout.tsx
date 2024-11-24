@@ -1,4 +1,6 @@
-import { DarkModeSelector } from "./dark-mode-selector";
+import { AntiFOUCScript } from "@hubbo/react/server";
+import { DarkModeSelector } from "@hubbo/react";
+import { FeedIcon } from "@hubbo/react/icons";
 import { config } from "~/hubbo";
 import "./globals.css";
 
@@ -11,24 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          type="text/javascript"
-          async={true}
-          dangerouslySetInnerHTML={{
-            __html: `
-            {
-              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-              const systemDark = (localStorage.theme === "system" || !("theme" in localStorage)) && prefersDark;
-            
-              if (localStorage.theme === 'dark' || systemDark) {
-                document.documentElement.classList.add("dark")
-              } else {
-                document.documentElement.classList.remove("dark")
-              }
-            }
-          `,
-          }}
-        />
+        <AntiFOUCScript />
       </head>
       <body className="bg-white dark:bg-zinc-950">
         <header className="border-b border-slate-200 dark:border-zinc-800">
@@ -40,8 +25,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Blog Title
             </a>
 
-            <div>
-              <DarkModeSelector />
+            <div className="flex items-center gap-1">
+              <DarkModeSelector className="h-8 w-8 rounded dark:hover:bg-zinc-800 focus-within:ring" />
+              <a
+                className="h-8 w-8 rounded flex items-center justify-center dark:hover:bg-zinc-800 focus-within:ring"
+                href="/feed.xml"
+                target="_blank"
+                title="RSS"
+              >
+                <FeedIcon />
+              </a>
             </div>
           </div>
         </header>

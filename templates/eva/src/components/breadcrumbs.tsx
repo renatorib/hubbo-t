@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronRightIcon, HomeIcon } from "./icons";
+import { ChevronRightIcon, HomeIcon } from "@hubbo/react/icons";
 
 function BreadcrumbsRoot(props: React.ComponentProps<"div">) {
   const children = React.Children.toArray(props.children);

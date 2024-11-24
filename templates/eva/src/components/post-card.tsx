@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Post } from "@hubbo/core";
+import { CalendarIcon, CommentIcon, ThumbsUpIcon, TimeIcon } from "@hubbo/react/icons";
 import { format } from "date-fns/format";
 import { config } from "~/hubbo";
-import { CalendarIcon, CommentIcon, ThumbsUpIcon, TimeIcon } from "./icons";
 
 export function PostCard({ post }: { post: Post }) {
   const link = `/post/${post.number}${post.meta.slug ? `-${post.meta.slug}` : ""}`;

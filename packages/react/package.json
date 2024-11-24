@@ -21,16 +21,21 @@
       "development": "./src/index.ts",
       "default": {
         "import": "./dist/index.js",
-        "require": "./dist/index.cjs",
-        "types": "./dist/index.d.ts"
+        "require": "./dist/index.cjs"
       }
     },
     "./server": {
       "development": "./src/server.ts",
       "default": {
         "import": "./dist/server.js",
-        "require": "./dist/server.cjs",
-        "types": "./dist/server.d.ts"
+        "require": "./dist/server.cjs"
+      }
+    },
+    "./icons": {
+      "development": "./src/icons/index.tsx",
+      "default": {
+        "import": "./dist/icons/index.js",
+        "require": "./dist/icons/index.cjs"
       }
     }
   },
@@ -46,11 +51,13 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@shikijs/markdown-it": "^1.16.2",
+    "@shikijs/markdown-it": "^1.22.0",
+    "@shikijs/transformers": "^1.22.0",
+    "@shikijs/twoslash": "^1.22.0",
     "htmr": "^1.0.2",
     "markdown-it": "^14.1.0",
     "server-only": "^0.0.1",
-    "shiki": "^1.16.2"
+    "shiki": "^1.22.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2"

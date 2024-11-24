@@ -14,7 +14,7 @@ export const GET = feed.rss2(
     item: (post) => ({
       title: post.title,
       date: new Date(post.meta.realCreatedAt || post.createdAt),
-      link: `https://clara.hubbo.dev/post/${post.number}-${post.meta.slug}`,
+      link: `https://clara.hubbo.dev/${hubbo.getPermalink(post)}`,
       content: post.body,
     }),
   }),

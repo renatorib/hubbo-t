@@ -3,6 +3,11 @@ import { Hubbo } from "@hubbo/core";
 export const hubbo = new Hubbo({
   repo: process.env.GITHUB_REPO!,
   token: process.env.GITHUB_TOKEN!,
+  seo: {
+    siteName: "Blog Title",
+    locale: "en_US",
+    ogImage: "generated",
+  },
 });
 
 export const config = {

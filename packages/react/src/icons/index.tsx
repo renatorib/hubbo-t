@@ -1,4 +1,4 @@
-function createIcon(paths: string[]) {
+export function createIcon(paths: string[]) {
   return function Icon(props: React.ComponentProps<"svg">) {
     return (
       <svg width="1em" height="1em" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
@@ -51,4 +51,10 @@ export const SunIcon = createIcon([
   "M21 12H23",
   "M4.22021 19.7799L5.64021 18.3599",
   "M18.3599 5.64021L19.7799 4.22021",
+]);
+
+export const FeedIcon = createIcon([
+  "M4.61035 11.7891C6.9973 11.7891 9.28649 12.7373 10.9743 14.4251C12.6621 16.1129 13.6104 18.4021 13.6104 20.7891",
+  "M4.61035 4.78906C8.85382 4.78906 12.9235 6.47477 15.9241 9.47535C18.9246 12.4759 20.6104 16.5456 20.6104 20.7891",
+  "M5.61035 20.7891C6.16264 20.7891 6.61035 20.3413 6.61035 19.7891C6.61035 19.2368 6.16264 18.7891 5.61035 18.7891C5.05807 18.7891 4.61035 19.2368 4.61035 19.7891C4.61035 20.3413 5.05807 20.7891 5.61035 20.7891Z",
 ]);

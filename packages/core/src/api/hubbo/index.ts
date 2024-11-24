@@ -19,13 +19,39 @@ type HubboOptions = {
    */
   token: string;
   /**
+   * Configuration for SEO
+   */
+  seo?: {
+    siteName?: string;
+    locale?: string;
+
+    /**
+     * How to determine post's ogImage.
+     * @default "meta"
+     */
+    ogImage?: "meta" | "generated";
+
+    /**
+     * What post property is used to use as og image.
+     * Only applied when ogImage = "meta"
+     * @default "cover"
+     */
+    ogImageMetaProperty?: string;
+
+    /**
+     * Path to the og image generator endpoint
+     * @default "/ogi"
+     */
+    ogImageGeneratedPath?: string;
+  };
+  /**
    * Optional configuration
    */
   config?: {
     /**
-     * Url to be used in meta tags & more
+     * Base URL
      */
-    baseUrl?: URL | string;
+    baseUrl?: string;
     /**
      * A label that controls published state
      * @default "state:published"
@@ -53,10 +79,12 @@ type HubboOptions = {
 
 export class Hubbo {
   repo: { owner: string; name: string; fullName: string; id?: string };
+  config: HubboOptions["config"];
 
   constructor(public options: HubboOptions) {
     const [owner, name] = options.repo.split("/");
     this.repo = { owner, name, fullName: options.repo, id: undefined };
+    this.config = options?.config;
   }
 
   async rest<T, E = any>(endpoint: `${"GET" | "POST" | "PUT" | "PATCH" | "DELETE"} /${string}`, init?: RequestInit) {
@@ -125,18 +153,23 @@ export class Hubbo {
     return { execute };
   }
 
-  getPermalink(post: Post) {
-    const ensureInitialSlash = (str: string) => (str.startsWith("/") ? str : "/" + str);
-    const prefixPath = this.options.config?.permalinkPath
+  getPermalinkPath(post: Post) {
+    return this.options.config?.permalinkPath
       ? this.options.config?.permalinkPath(post)
       : post.tags.find((tag) => tag.prefix === "type")?.name || "post";
-    const path = this.options.config?.permalinkSlug
+  }
+
+  getPermalinkSlug(post: Post) {
+    return this.options.config?.permalinkSlug
       ? this.options.config?.permalinkSlug(post)
       : post.meta.slug
         ? `${post.number}-${post.meta.slug}`
         : String(post.number);
+  }
 
-    return ensureInitialSlash(prefixPath) + ensureInitialSlash(path);
+  getPermalink(post: Post) {
+    const ensureInitialSlash = (str: string) => (str.startsWith("/") ? str : "/" + str);
+    return ensureInitialSlash(this.getPermalinkPath(post)) + ensureInitialSlash(this.getPermalinkSlug(post));
   }
 
   async getRepoId() {

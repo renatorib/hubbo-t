@@ -1,15 +1,82 @@
 import Image from "next/image";
-import { MarkdownRender } from "@hubbo/react/server";
 import { notFound, redirect, RedirectType } from "next/navigation";
-import { format } from "date-fns";
+import { format } from "date-fns/format";
+import { ogi } from "@hubbo/next";
+import { MarkdownRenderServer } from "@hubbo/react/server";
+import { CalendarIcon, TimeIcon } from "@hubbo/react/icons";
 import { hubbo, config } from "~/hubbo";
-import { CalendarIcon, TimeIcon } from "~/components/icons";
+import { Metadata } from "next";
 
 export const revalidate = 300;
 
-export default async function Post({ params }: { params: Record<string, string> }) {
-  const [number, ...slug] = params.slug.split("-");
+async function getData(props: { params: Record<string, string> }) {
+  const [number, ...slug] = props.params.slug.split("-");
   const post = await hubbo.getPost({ number: Number(number) });
+  return { post, number, slug };
+}
+
+export async function generateMetadata(props: { params: Record<string, string> }) {
+  const { post } = await getData(props);
+
+  if (!post) return {};
+
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : hubbo.config?.baseUrl;
+
+  const seo = {
+    canonical: baseUrl ? baseUrl + hubbo.getPermalink(post) : undefined,
+    title: post.title,
+    siteName: hubbo.options.seo?.siteName,
+    description: (post.meta.description as string) || (post.meta.subtitle as string) || undefined,
+    authors: [post.author, ...post.coauthors],
+    publishedTime: (post.meta.realCreatedAt as string) || post.createdAt,
+    modifiedTime: post.updatedAt,
+    locale: (post.meta.locale as string) || hubbo.options.seo?.locale || undefined,
+    image: (post.meta.cover as string) || undefined,
+    articleSection: (post.meta["article:section"] as string) || undefined,
+    articleTags: post.tags.map((tag) => tag.name),
+  };
+
+  const image = baseUrl
+    ? `${baseUrl}/ogi/${ogi.hash.stringify({
+        title: seo.title,
+        subtitle: post.meta.subtitle,
+        cover: post.meta.cover,
+        url: baseUrl.split("//")[1] + hubbo.getPermalink(post),
+        authorName: post.author.name || post?.author.login,
+        authorPicture: post.author.avatarUrl,
+        createdAt: post.createdAt ? format(post.meta.realCreatedAt || post.createdAt, "MMM dd, yyyy") : undefined,
+      })}`
+    : undefined;
+
+  return {
+    title: seo.title,
+    description: seo.description,
+    authors: seo.authors.map((a) => ({ name: a.name || a.login })),
+    openGraph: {
+      type: "article",
+      publishedTime: seo.publishedTime,
+      modifiedTime: seo.modifiedTime,
+      siteName: seo.siteName,
+      authors: seo.authors.map((a) => a.name || a.login),
+      description: seo.description,
+      title: seo.title,
+      tags: seo.articleTags,
+      section: seo.articleSection,
+      images: image,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      site: seo.siteName,
+      creator: seo.authors.map((a) => a.name || a.login).join(", "),
+      images: image,
+    },
+  } satisfies Metadata;
+}
+
+export default async function Post(props: { params: Record<string, string> }) {
+  const { post, number, slug } = await getData(props);
 
   if (!post) {
     throw notFound();
@@ -55,7 +122,7 @@ export default async function Post({ params }: { params: Record<string, string> 
 
       <div className="flex justify-center">
         <div className="prose lg:prose-xl dark:prose-invert dark:prose-zinc lg:max-w-3xl w-full">
-          <MarkdownRender content={post.body} />
+          <MarkdownRenderServer content={post.body} />
         </div>
       </div>
     </div>

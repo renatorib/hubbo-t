@@ -2,53 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: sans-serif;
-}
-
-.dark {
-  color-scheme: dark;
-
-  .shiki, .shiki span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-    /* Optional, if you also want font styles */
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
-[class^='prose'] {
-  pre {
-    @apply overflow-x-auto border border-slate-200 dark:border-zinc-800 shadow-slate-200 dark:shadow-zinc-800;
-    box-shadow: 0 3px 0 0 var(--tw-shadow-color);
+@layer components {
+  .dark {
+    color-scheme: dark;
   }
-  img[align=center] {
-    @apply mx-auto;
+
+  .dark .shiki {
+    @apply !bg-[--shiki-dark-bg] !text-[--shiki-dark];
   }
-}
+  .dark .shiki * {
+    @apply !text-[--shiki-dark];
+  }
 
-::-webkit-scrollbar-track {
-  @apply rounded-full bg-transparent;
-}
+  .shiki {
+    @apply p-0 py-2 rounded border border-zinc-200 dark:border-zinc-900;
+  }
+  .shiki .line {
+    @apply relative px-2 inline-block min-w-full;
+  }
+  .shiki.has-diff .line {
+    @apply px-4;
+  }
+  .shiki .line.highlighted {
+    @apply bg-black/10 dark:bg-white/5;
+  }
+  .shiki .line span.highlighted-word {
+    @apply bg-black/10 dark:bg-white/5 inline-block rounded-sm px-1;
+  }
 
-::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-slate-200 dark:bg-zinc-800;
-}
+  .shiki .line.diff::before {
+    @apply block absolute left-1 opacity-25 select-none;
+  }
+  .shiki .line.diff.add {
+    @apply bg-green-300/30 dark:bg-green-600/10;
+  }
+  .shiki .line.diff.add::before {
+    content: "+";
+  }
+  .shiki .line.diff.remove {
+    @apply bg-red-300/30 dark:bg-red-600/10;
+  }
+  .shiki .line.diff.remove::before {
+    content: "-";
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-300 dark:bg-zinc-700;
+  [class^="prose"] {
+    img[align="center"] {
+      @apply mx-auto;
+    }
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply rounded-full bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-zinc-200 dark:bg-zinc-800;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-300 dark:bg-zinc-700;
+  }
 }
 
 @screen sm {
   ::-webkit-scrollbar {
     @apply w-2 h-2;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
   }
 }

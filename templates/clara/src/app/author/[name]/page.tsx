@@ -15,7 +15,7 @@ export default async function Author({ params }: { params: Record<string, string
       </Breadcrumbs>
 
       <div className="flex flex-col gap-4">
-        {posts.length === 0 && <div className="text-center rounded-lg p-2 border border-slate-100">No posts found</div>}
+        {posts.length === 0 && <div className="text-center rounded-lg p-2 border border-zinc-100">No posts found</div>}
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
