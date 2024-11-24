@@ -2,9 +2,13 @@
 
 import React from "react";
 import { cn } from "~/lib/css";
-import { useDraggable } from "~/hooks/use-draggable";
+import { useDraggable } from "../../hooks/use-draggable";
 
-export function WindowSplit(props: { left: React.ReactNode; right: React.ReactNode }) {
+export function WindowSplit({
+  left,
+  right,
+  ...props
+}: { left: React.ReactNode; right: React.ReactNode } & React.ComponentProps<"div">) {
   const [ratio, setRatio] = React.useState(0.5);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const handlerRef = React.useRef<HTMLDivElement>(null);
@@ -22,15 +26,15 @@ export function WindowSplit(props: { left: React.ReactNode; right: React.ReactNo
   const size = `${Math.min(Math.max(ratio, 0.05), 0.95) * 100}%`;
 
   return (
-    <div ref={wrapperRef} className="group relative w-fit h-fit select-none">
-      <div>{props.left}</div>
+    <div ref={wrapperRef} {...props} className={cn("group relative w-fit h-fit select-none", props.className)}>
+      <div>{left}</div>
 
       <div
         draggable={false}
         className="absolute inset-0 w-full h-full z-10"
         style={{ maskImage: `linear-gradient(to right, transparent ${size}, black ${size})` }}
       >
-        {props.right}
+        {right}
       </div>
 
       <div
@@ -38,9 +42,8 @@ export function WindowSplit(props: { left: React.ReactNode; right: React.ReactNo
         ref={handlerRef}
         style={{ left: size }}
         className={cn(
-          "absolute inset-0 h-full -translate-x-[50%] z-20",
-          "w-[12px]",
-          "bg-transparent group-hover:bg-zinc-700/20 hover:!bg-zinc-800/90",
+          "absolute inset-0 h-full -translate-x-[50%] z-20 w-[8px]",
+          "bg-transparent group-hover:bg-sky-700/50 hover:!bg-sky-800/90",
           "transition cursor-col-resize active:cursor-grabbing",
         )}
       />

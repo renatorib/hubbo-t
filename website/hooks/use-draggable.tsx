@@ -14,14 +14,14 @@ export function useDraggable<Element extends HTMLElement>(
   React.useEffect(() => {
     const handler = ref.current;
     if (handler) {
-      return subscribe(handler, "mousedown", (event) => {
+      return subscribe(handler, "pointerdown", (event) => {
         cbs?.onDragStart?.(event);
-        const unsubscribeMouseMove = subscribe(document, "mousemove", (event) => {
+        const unsubscribeMouseMove = subscribe(document, "pointermove", (event) => {
           if (event.buttons & 1) cbs?.onDrag?.(event);
         });
         return subscribe(
           document,
-          "mouseup",
+          "pointerup",
           (event) => {
             unsubscribeMouseMove();
             cbs?.onDragEnd?.(event);
